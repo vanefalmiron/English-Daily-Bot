@@ -103,12 +103,6 @@ var GROQ_KEY       = "TU_GROQ_API_KEY";
 
 ---
 
-## ⚠️ Importante
-
-Nunca subas tus claves reales a GitHub. Usa siempre los placeholders del código y configura tus claves directamente en Google Apps Script.
-
----
-
 ## Autor
 
-Proyecto creado como automatización personal para aprender inglés de forma consistente y sin esfuerzo diario.
+Proyecto creado como automatización personal para aprender inglés de forma consistente.
