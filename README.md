@@ -1,6 +1,6 @@
-# 🇬🇧 Palabra del Día en Inglés — Automatización
+# 🇬🇧 English Daily Bot — Automatización de vocabulario
 
-Automatización 100% gratuita que envía cada mañana 5 palabras en inglés directamente a Telegram, con significado, ejemplos de uso y traducción al español.
+Automatización 100% gratuita que envía cada mañana 3 palabras en inglés directamente a Telegram, con pronunciación, significado, ejemplos reales, tips profesionales y un reto diario para practicar.
 
 ---
 
@@ -8,11 +8,13 @@ Automatización 100% gratuita que envía cada mañana 5 palabras en inglés dire
 
 Cada día a las 8:00am (hora Madrid) recibes un mensaje en Telegram con:
 
-- 5 palabras en inglés útiles para viajes y trabajo
-- Pronunciación aproximada
-- Significado en español
-- 2 ejemplos de uso reales (trabajo y viaje)
-- Nivel: Básico / Intermedio / Avanzado
+- 3 palabras en inglés seleccionadas por impacto real en trabajo y viajes
+- Pronunciación con truco para recordarla
+- Significado claro en español
+- 2 ejemplos de uso en contexto real (trabajo y viaje)
+- Tip pro: consejo de uso natural o error común a evitar
+- Reto del día: micro-tarea para practicar las 3 palabras
+- Sin repeticiones: el bot recuerda todas las palabras ya enviadas
 
 ---
 
@@ -20,20 +22,46 @@ Cada día a las 8:00am (hora Madrid) recibes un mensaje en Telegram con:
 
 | Herramienta | Uso | Coste |
 |---|---|---|
-| Google Apps Script | Scheduler y ejecución del script | Gratis |
+| Google Apps Script | Scheduler, ejecución y memoria del historial | Gratis |
 | Groq API (LLaMA 3.3 70B) | Generación del contenido con IA | Gratis |
 | Telegram Bot API | Entrega del mensaje al móvil | Gratis |
+
+**Coste total: 0€/mes**
 
 ---
 
 ## Arquitectura
 
 ```
-Google Apps Script (trigger diario)
+Google Apps Script (trigger diario 8am)
         ↓
-   Groq API → genera 5 palabras con IA
+PropertiesService → carga historial de palabras ya enviadas
         ↓
-   Telegram Bot → mensaje en tu móvil
+Groq API (LLaMA 3.3 70B) → genera 3 palabras nuevas evitando repeticiones
+        ↓
+PropertiesService → guarda las nuevas palabras en el historial
+        ↓
+Telegram Bot → mensaje formateado en tu móvil
+```
+
+---
+
+## Ejemplo de mensaje recibido
+
+```
+🇬🇧 3 palabras del día — martes 01 de abril
+
+1️⃣ LEVERAGE — verbo
+🔊 Pronunciación: /ˈlevərɪdʒ/ (truco: suena como 'lé-ve-rich')
+📖 Significado: aprovechar algo al máximo para obtener ventaja
+💼 En el trabajo: We need to leverage our network to close this deal → Necesitamos aprovechar nuestra red para cerrar este trato
+✈️ De viaje: You can leverage your hotel points to get a free upgrade → Puedes aprovechar tus puntos del hotel para conseguir una mejora gratuita
+🧠 Tip pro: En reuniones de negocios es una palabra clave. Evita traducirla literalmente como "apalancar".
+
+---
+
+💡 Reto del día: En tu próxima reunión o email, usa "leverage" en una frase real.
+Si no tienes reunión hoy, escríbela en un mensaje a un compañero.
 ```
 
 ---
@@ -45,7 +73,8 @@ Google Apps Script (trigger diario)
 - Escribe `/newbot` y sigue los pasos
 - Guarda el **Bot Token** que te dará
 - Escríbele a tu bot `/start` para activarlo
-- Obtén tu **Chat ID** visitando: `https://api.telegram.org/bot<TU_TOKEN>/getUpdates`
+- Obtén tu **Chat ID** visitando:
+  `https://api.telegram.org/bot<TU_TOKEN>/getUpdates`
 
 ### 2. Consigue tu clave de Groq
 - Crea cuenta gratuita en [console.groq.com](https://console.groq.com)
@@ -76,20 +105,16 @@ var GROQ_KEY       = "TU_GROQ_API_KEY";
 
 ---
 
-## Ejemplo de mensaje recibido
+## Sistema anti-repetición
 
-```
-🇬🇧 Palabras del día — martes 01 de abril
+El bot usa `PropertiesService` de Google Apps Script para guardar un historial de todas las palabras ya enviadas. En cada ejecución:
 
-1️⃣ NETWORKING (net-wor-king)
-📖 Significado: Establecer contactos profesionales
-💼 Ejemplo trabajo: I went to a networking event last night → Fui a un evento de networking anoche
-✈️ Ejemplo viaje: Networking with locals can open many doors → Conectar con locales puede abrir muchas puertas
-📊 Nivel: Intermedio
+1. Carga el historial guardado
+2. Se lo pasa al modelo como contexto para que no repita
+3. Extrae las palabras nuevas del mensaje generado
+4. Las añade al historial para el día siguiente
 
----
-...
-```
+El historial guarda hasta 150 palabras. A ese ritmo (3 palabras/día) tienes vocabulario único para 50 días sin repetición.
 
 ---
 
@@ -105,4 +130,4 @@ var GROQ_KEY       = "TU_GROQ_API_KEY";
 
 ## Autor
 
-Proyecto creado como automatización personal para aprender inglés de forma consistente.
+Proyecto creado como automatización personal para aprender inglés de forma consistente y progresiva.
