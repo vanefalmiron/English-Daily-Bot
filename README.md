@@ -1,4 +1,4 @@
-# 🇬🇧 English Daily Bot
+# 🇬🇧 English Daily Bot — Automatización de vocabulario
 
 Automatización 100% gratuita que envía cada mañana 3 palabras en inglés directamente a Telegram, con pronunciación, significado, ejemplos reales, tips profesionales y un reto diario para practicar.
 
