@@ -1,133 +1,193 @@
-# 🇬🇧 English Daily Bot — Automatización de vocabulario
+# 🇬🇧 English Daily Bot
 
-Automatización 100% gratuita que envía cada mañana 3 palabras en inglés directamente a Telegram, con pronunciación, significado, ejemplos reales, tips profesionales y un reto diario para practicar.
-
----
-
-## ¿Qué hace?
-
-Cada día a las 8:00am (hora Madrid) recibes un mensaje en Telegram con:
-
-- 3 palabras en inglés seleccionadas por impacto real en trabajo y viajes
-- Pronunciación con truco para recordarla
-- Significado claro en español
-- 2 ejemplos de uso en contexto real (trabajo y viaje)
-- Tip pro: consejo de uso natural o error común a evitar
-- Reto del día: micro-tarea para practicar las 3 palabras
-- Sin repeticiones: el bot recuerda todas las palabras ya enviadas
+**3 palabras en inglés cada mañana, directamente en tu Telegram.**  
+Sin apps de idiomas. Sin notificaciones ignoradas. Sin excusas.
 
 ---
 
-## Stack tecnológico
+## ¿De qué va esto?
 
-| Herramienta | Uso | Coste |
+Aprender inglés de forma consistente es difícil cuando depende de que tú te acuerdes de abrir una app. Este bot da la vuelta al problema — es él quien te encuentra a ti, cada mañana, donde ya estás: en Telegram.
+
+Cada día a las 8:00 recibes 3 palabras en inglés seleccionadas por su impacto real en contextos de trabajo y viajes. No vocabulario de relleno — palabras que vas a usar de verdad.
+
+Cada palabra llega con todo lo que necesitas para no olvidarla:
+
+- **Pronunciación** con truco mnemotécnico para recordarla
+- **Significado** claro en español, sin rodeos
+- **2 ejemplos en contexto real** — uno laboral, uno de viaje
+- **Tip pro** con el matiz de uso natural o el error típico a evitar
+- **Reto del día** para practicar las 3 palabras antes de que acabe la jornada
+
+Y lo mejor: el bot recuerda todo lo que ya te ha enviado. Nunca repite.
+
+---
+
+## ¿Por qué mola?
+
+- **Coste total: 0 €** — sin suscripciones, sin tarjeta, sin servidor propio
+- **Sin instalaciones** — todo corre en la nube dentro de tu cuenta de Google
+- **Funciona solo** — una vez configurado no hay que tocarlo nunca más
+- **Generado con IA** — cada mensaje es único, contextualizado y fresco
+- **Anti-repetición inteligente** — el historial acumula hasta 150 palabras sin repetir
+- **Privado** — tus datos no salen de tu ecosistema Google y Telegram
+
+---
+
+## Stack
+
+| Capa | Tecnología | Coste |
 |---|---|---|
-| Google Apps Script | Scheduler, ejecución y memoria del historial | Gratis |
-| Groq API (LLaMA 3.3 70B) | Generación del contenido con IA | Gratis |
-| Telegram Bot API | Entrega del mensaje al móvil | Gratis |
-
-**Coste total: 0€/mes**
-
----
-
-## Arquitectura
-
-```
-Google Apps Script (trigger diario 8am)
-        ↓
-PropertiesService → carga historial de palabras ya enviadas
-        ↓
-Groq API (LLaMA 3.3 70B) → genera 3 palabras nuevas evitando repeticiones
-        ↓
-PropertiesService → guarda las nuevas palabras en el historial
-        ↓
-Telegram Bot → mensaje formateado en tu móvil
-```
+| Lógica y ejecución | Google Apps Script | Gratis |
+| Generación de contenido con IA | Groq API — LLaMA 3.3 70B | Gratis |
+| Notificaciones | Telegram Bot API | Gratis |
+| Memoria anti-repetición | PropertiesService (Apps Script) | Gratis |
+| Scheduler (cron) | Triggers de Apps Script | Gratis |
 
 ---
 
-## Ejemplo de mensaje recibido
+## ¿Cómo funciona?
+
+```
+Cada día a las 8:00
+    → Carga el historial de palabras ya enviadas (PropertiesService)
+    → Llama a Groq API pasando el historial como contexto
+    → LLaMA 3.3 genera 3 palabras nuevas con pronunciación, ejemplos y reto
+    → Guarda las nuevas palabras en el historial
+    → Envía el mensaje formateado a Telegram
+```
+
+El sistema anti-repetición garantiza vocabulario único durante 50 días seguidos (3 palabras × 50 días = 150 palabras antes del primer ciclo).
+
+---
+
+## Ejemplo de mensaje
 
 ```
 🇬🇧 3 palabras del día — martes 01 de abril
 
 1️⃣ LEVERAGE — verbo
-🔊 Pronunciación: /ˈlevərɪdʒ/ (truco: suena como 'lé-ve-rich')
+🔊 Pronunciación: /ˈlevərɪdʒ/ (suena como "lé-ve-rich")
 📖 Significado: aprovechar algo al máximo para obtener ventaja
-💼 En el trabajo: We need to leverage our network to close this deal → Necesitamos aprovechar nuestra red para cerrar este trato
-✈️ De viaje: You can leverage your hotel points to get a free upgrade → Puedes aprovechar tus puntos del hotel para conseguir una mejora gratuita
-🧠 Tip pro: En reuniones de negocios es una palabra clave. Evita traducirla literalmente como "apalancar".
+💼 Trabajo: We need to leverage our network to close this deal
+✈️ Viaje: You can leverage your hotel points to get a free upgrade
+🧠 Tip pro: En reuniones de negocios es palabra clave. Evita
+   traducirla literalmente como "apalancar".
 
----
+──────────────────────────────
 
-💡 Reto del día: En tu próxima reunión o email, usa "leverage" en una frase real.
-Si no tienes reunión hoy, escríbela en un mensaje a un compañero.
+💡 Reto del día: Usa "leverage" en una frase real antes de
+que acabe el día. En un email, en una reunión o en un mensaje
+a un compañero.
 ```
 
 ---
 
-## Cómo usarlo tú también
+## Requisitos
 
-### 1. Crea tu bot de Telegram
-- Abre Telegram y busca `@BotFather`
-- Escribe `/newbot` y sigue los pasos
-- Guarda el **Bot Token** que te dará
-- Escríbele a tu bot `/start` para activarlo
-- Obtén tu **Chat ID** visitando:
-  `https://api.telegram.org/bot<TU_TOKEN>/getUpdates`
+Antes de empezar necesitas:
 
-### 2. Consigue tu clave de Groq
-- Crea cuenta gratuita en [console.groq.com](https://console.groq.com)
-- Ve a *API Keys* → *Create API Key*
-- Guarda la clave (empieza por `gsk_...`)
-
-### 3. Configura Google Apps Script
-- Ve a [script.google.com](https://script.google.com)
-- Crea un nuevo proyecto
-- Copia el código de `word_of_day.gs`
-- Reemplaza las variables con tus claves:
-
-```javascript
-var TELEGRAM_TOKEN = "TU_TELEGRAM_BOT_TOKEN";
-var CHAT_ID        = "TU_TELEGRAM_CHAT_ID";
-var GROQ_KEY       = "TU_GROQ_API_KEY";
-```
-
-### 4. Configura la zona horaria
-- En Apps Script → ⚙️ Configuración del proyecto
-- Zona horaria → `(GMT+01:00) Madrid`
-
-### 5. Activa el trigger diario
-- Clic en el icono del reloj (Triggers)
-- Añadir trigger → función `enviarPalabraDelDia`
-- Tipo: Temporizador por día → 8:00 a 9:00am
-- Guardar
+- Una cuenta de **Gmail / Google**
+- La app de **Telegram** instalada en el móvil
+- Una cuenta gratuita en **[console.groq.com](https://console.groq.com)** para obtener la API key
+- Acceso a **[script.google.com](https://script.google.com)** desde el navegador
 
 ---
 
-## Sistema anti-repetición
+## Configuración — paso a paso
 
-El bot usa `PropertiesService` de Google Apps Script para guardar un historial de todas las palabras ya enviadas. En cada ejecución:
+### 1. Crear el bot de Telegram
 
-1. Carga el historial guardado
-2. Se lo pasa al modelo como contexto para que no repita
-3. Extrae las palabras nuevas del mensaje generado
-4. Las añade al historial para el día siguiente
+Abre Telegram, busca **@BotFather** y sigue sus instrucciones para crear un bot nuevo. Al terminar te dará un **token** — guárdalo.
 
-El historial guarda hasta 150 palabras. A ese ritmo (3 palabras/día) tienes vocabulario único para 50 días sin repetición.
+Para obtener tu **Chat ID** personal, busca **@userinfobot** en Telegram y pulsa Start. Te lo da al momento.
 
 ---
 
-## Archivos del proyecto
+### 2. Conseguir la API key de Groq
 
-```
-📁 english-daily-bot/
-├── word_of_day.gs   # Script principal (Google Apps Script)
-└── README.md        # Este archivo
-```
+Crea una cuenta gratuita en [console.groq.com](https://console.groq.com), ve a **API Keys → Create API Key** y guarda la clave. Empieza por `gsk_...`
+
+Groq es gratuito y no requiere tarjeta para el nivel de uso de este proyecto.
 
 ---
 
-## Objetivo
+### 3. Crear el proyecto en Apps Script
 
-Proyecto creado como automatización personal para aprender inglés de forma consistente y progresiva.
+Ve a [script.google.com](https://script.google.com), crea un nuevo proyecto y ponle el nombre que quieras. Borra el contenido por defecto del editor y pega el código del archivo `word_of_day.gs`.
+
+---
+
+### 4. Rellenar la configuración
+
+Al inicio del código hay tres variables que debes rellenar con tus datos:
+
+- `TELEGRAM_TOKEN` → el token que te dio BotFather
+- `CHAT_ID` → tu ID numérico de Telegram
+- `GROQ_KEY` → tu clave de Groq (empieza por `gsk_...`)
+
+---
+
+### 5. Ajustar la zona horaria
+
+En el panel de Apps Script ve a **Configuración del proyecto ⚙️** y cambia la zona horaria a `Europe/Madrid`. Así el trigger se ejecuta en tu hora local.
+
+---
+
+### 6. Autorizar permisos
+
+La primera vez que ejecutes cualquier función, Google pedirá que autorices el acceso. Es un proceso estándar — solo ocurre una vez.
+
+Ejecuta la función manualmente desde el editor para verificar que el mensaje llega correctamente a Telegram antes de activar el trigger automático.
+
+---
+
+### 7. Activar el trigger diario
+
+En el panel lateral de Apps Script, abre la sección **Triggers (reloj ⏰)** y crea uno:
+
+| Función | Cuándo se ejecuta |
+|---|---|
+| `enviarPalabraDelDia` | Todos los días · entre 8:00 y 9:00 |
+
+Listo. A partir de aquí el bot trabaja solo.
+
+---
+
+## Solución de problemas
+
+**No llega ningún mensaje**  
+Ejecuta la función manualmente desde el editor y revisa los logs. Comprueba que el token, el chat_id y la Groq key están bien escritos.
+
+**El bot repite palabras**  
+Puede ocurrir si se borró el historial de PropertiesService. Ve a **Ejecución → Ver propiedades del script** para comprobar que el historial existe y tiene contenido.
+
+**Error en la llamada a Groq**  
+Verifica que tu API key de Groq sigue activa en [console.groq.com](https://console.groq.com) y que no has superado el límite de llamadas gratuitas.
+
+**El trigger se ejecuta a deshora**  
+Verifica que la zona horaria del proyecto esté configurada en `Europe/Madrid`.
+
+---
+
+## Seguridad
+
+- El código y las credenciales viven dentro de tu cuenta privada de Google Apps Script
+- Nadie más tiene acceso a tu script salvo tú
+- Si el token de Telegram se compromete, revócalo desde @BotFather con `/revoke` y genera uno nuevo
+- La API key de Groq se puede regenerar desde el panel de [console.groq.com](https://console.groq.com) si fuera necesario
+- No compartas ni subas el archivo con credenciales a repositorios públicos
+
+---
+
+## Posibles mejoras futuras
+
+- Selección de temática diaria (negocios, viajes, tecnología, conversación informal)
+- Modo test con envío inmediato para probar nuevas palabras fuera del horario
+- Historial exportable a Notion o Google Sheets para repasar
+- Nivel de dificultad ajustable (básico, intermedio, avanzado)
+- Versión para otros idiomas cambiando el prompt
+
+---
+
+*Hecho con Google Apps Script · Groq API · Telegram Bot API*
