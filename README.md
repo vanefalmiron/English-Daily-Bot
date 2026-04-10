@@ -128,6 +128,6 @@ El historial guarda hasta 150 palabras. A ese ritmo (3 palabras/día) tienes voc
 
 ---
 
-## Autor
+## Objetivo
 
 Proyecto creado como automatización personal para aprender inglés de forma consistente y progresiva.
